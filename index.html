@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SVG 단축어 안내</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FDFCFB;
+  --card:#FFFFFF;
+  --ink:#3A3A3A;
+  --ink-soft:#6B6B6B;
+  --accent:#7FA8C9;
+  --accent-deep:#5C8AAE;
+  --line:#EAEAEA;
+  --callout-bg:#F4F1ED;
+  --code-bg:#F6F4F1;
+  --radius:14px;
+  --serif:'Noto Serif KR', serif;
+  --sans:-apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --mono:'JetBrains Mono', monospace;
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--sans);
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- Top tab bar ---------- */
+.tabbar{
+  position:sticky; top:0; z-index:50;
+  background:rgba(253,252,251,0.92);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.tabbar-inner{
+  max-width:720px;
+  margin:0 auto;
+  padding:0 24px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  position:relative;
+}
+.brand{
+  font-family:var(--serif);
+  font-weight:700;
+  font-size:15px;
+  color:var(--ink);
+  padding:18px 16px 18px 0;
+  margin-right:auto;
+  white-space:nowrap;
+}
+.tabs{
+  position:relative;
+  display:flex;
+  gap:6px;
+}
+.tab-btn{
+  position:relative;
+  background:none;
+  border:none;
+  font-family:var(--sans);
+  font-size:15px;
+  font-weight:600;
+  color:var(--ink-soft);
+  padding:18px 18px;
+  cursor:pointer;
+  transition:color 0.2s;
+}
+.tab-btn:hover{ color:var(--ink); }
+.tab-btn.active{ color:var(--ink); }
+.tab-underline{
+  position:absolute;
+  bottom:0;
+  left:0;
+  height:2.5px;
+  background:var(--accent);
+  border-radius:2px;
+  transition:left 0.3s cubic-bezier(.4,0,.2,1), width 0.3s cubic-bezier(.4,0,.2,1);
+}
+
+/* ---------- Layout ---------- */
+.wrap{
+  max-width:720px;
+  margin:0 auto;
+  padding:48px 24px 100px;
+}
+.panel{ display:none; }
+.panel.active{ display:block; animation:fadeIn 0.35s ease; }
+@keyframes fadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+h1{
+  font-family:var(--serif);
+  font-weight:700;
+  font-size:clamp(24px, 5vw, 30px);
+  color:var(--ink);
+  margin:0 0 8px;
+  letter-spacing:-0.01em;
+}
+.subtitle{
+  color:var(--ink-soft);
+  font-size:14px;
+  margin:0 0 36px;
+}
+h2{
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:18px;
+  color:var(--ink);
+  margin:32px 0 14px;
+}
+p{ margin:0 0 16px; font-size:15px; color:var(--ink); opacity:0.88; }
+strong{ color:var(--ink); font-weight:700; }
+a{ color:var(--accent-deep); text-decoration:none; border-bottom:1.5px solid rgba(127,168,201,0.4); }
+a:hover{ border-color:var(--accent-deep); }
+code{
+  font-family:var(--mono);
+  font-size:12.5px;
+  background:var(--code-bg);
+  border:1px solid var(--line);
+  padding:2px 6px;
+  border-radius:6px;
+  color:var(--accent-deep);
+}
+
+ol.data-list{
+  margin:16px 0 20px;
+  padding-left:0;
+  list-style:none;
+  counter-reset:dl;
+}
+ol.data-list li{
+  counter-increment:dl;
+  position:relative;
+  padding:8px 0 8px 36px;
+  font-size:14px;
+  color:var(--ink);
+  opacity:0.88;
+  border-bottom:1px solid var(--line);
+}
+ol.data-list li:last-child{ border-bottom:none; }
+ol.data-list li::before{
+  content: counter(dl, decimal-leading-zero);
+  position:absolute; left:0; top:8px;
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--accent-deep);
+  background:var(--callout-bg);
+  border-radius:5px;
+  padding:2px 6px;
+  font-weight:600;
+}
+ol.data-list li .note{
+  display:block;
+  font-size:12.5px;
+  color:var(--ink-soft);
+  margin-top:2px;
+}
+
+.callout{
+  background:var(--callout-bg);
+  border-radius:var(--radius);
+  padding:20px 22px;
+  margin:24px 0;
+}
+.callout .tag{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:0.08em;
+  color:var(--accent-deep);
+  text-transform:uppercase;
+  display:block;
+  margin-bottom:8px;
+  font-weight:600;
+}
+.callout p{ margin:0; opacity:1; }
+
+.cmd-box{
+  background:var(--code-bg);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:16px 18px;
+  font-family:var(--mono);
+  font-size:13px;
+  color:var(--accent-deep);
+  margin:14px 0 20px;
+  word-break:break-all;
+  display:block;
+  text-decoration:none;
+  cursor:pointer;
+  transition:background 0.2s, border-color 0.2s;
+}
+.cmd-box:hover{
+  background:#EFEAE3;
+  border-color:var(--accent);
+}
+.alt-shortcut-img{
+  width:100%;
+  border-radius:12px;
+  border:1px solid var(--line);
+  display:block;
+  margin:14px 0;
+}
+
+.divider{
+  height:1px;
+  background:var(--line);
+  margin:40px 0;
+}
+
+/* ---------- FAQ ---------- */
+.faq-item{ border-bottom:1px solid var(--line); }
+.faq-item:last-child{ border-bottom:none; }
+.faq-q{
+  width:100%;
+  text-align:left;
+  background:none;
+  border:none;
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:15px;
+  font-weight:700;
+  padding:18px 0;
+  cursor:pointer;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+}
+.faq-q span.qtext{ display:flex; gap:8px; }
+.faq-q .q-mark{ color:var(--accent-deep); flex-shrink:0; }
+.faq-q .chev{
+  width:14px; height:14px;
+  flex-shrink:0;
+  margin-top:3px;
+  transition:transform 0.25s ease;
+  opacity:0.5;
+}
+.faq-item.open .chev{ transform:rotate(180deg); }
+.faq-a{ max-height:0; overflow:hidden; transition:max-height 0.3s ease; }
+.faq-a-inner{ padding:0 0 20px 24px; }
+.faq-a-inner p{ font-size:14px; color:var(--ink-soft); margin:0 0 10px; }
+.faq-a-inner p:last-child{ margin-bottom:0; }
+
+/* ---------- Example gallery ---------- */
+.frame-grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:12px;
+  margin-bottom:8px;
+}
+.frame{
+  border:1.5px dashed #D9D4CC;
+  border-radius:12px;
+  background:var(--code-bg);
+  min-height:140px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:8px;
+}
+.frame .icon{ width:26px; height:26px; opacity:0.4; }
+.frame .label{
+  font-family:var(--mono);
+  font-size:10.5px;
+  letter-spacing:0.04em;
+  color:#A7A19A;
+}
+.frame-grid.pair{ grid-template-columns:repeat(2, 1fr); }
+.frame-grid.pair .frame{ min-height:200px; }
+.frame-clickable{ cursor:zoom-in; transition:border-color 0.2s, opacity 0.2s; }
+.frame-clickable:hover{ border-color:var(--accent); opacity:0.92; }
+@media (max-width:560px){
+  .frame-grid{ grid-template-columns:repeat(2, 1fr); }
+}
+
+footer{
+  text-align:center;
+  padding-top:40px;
+  margin-top:40px;
+  border-top:1px solid var(--line);
+}
+footer p{ font-size:13px; color:#A7A19A; }
+
+/* ---------- Example accordion ---------- */
+.ex-item{
+  border:1px solid var(--line);
+  border-radius:12px;
+  margin-bottom:10px;
+  overflow:hidden;
+  background:var(--card);
+}
+.ex-q{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  background:none;
+  border:none;
+  text-align:left;
+  padding:16px 18px;
+  cursor:pointer;
+  font-family:var(--sans);
+}
+.ex-q-left{ display:flex; align-items:center; gap:10px; }
+.ex-num{
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--accent-deep);
+  background:var(--callout-bg);
+  border-radius:6px;
+  padding:3px 7px;
+  flex-shrink:0;
+}
+.ex-name{ font-size:15px; font-weight:700; color:var(--ink); }
+.ex-q .chev{
+  width:14px; height:14px;
+  flex-shrink:0;
+  transition:transform 0.25s ease;
+  opacity:0.45;
+}
+.ex-item.open .chev{ transform:rotate(180deg); }
+.ex-body{ max-height:0; overflow:hidden; transition:max-height 0.3s ease; }
+.ex-body-inner{ padding:0 18px 18px; }
+.ex-body-inner p{ font-size:13.5px; color:var(--ink-soft); margin:0 0 12px; }
+.ex-thumb{
+  border:1.5px dashed #D9D4CC;
+  border-radius:10px;
+  background:var(--code-bg);
+  min-height:180px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:8px;
+  cursor:zoom-in;
+  transition:border-color 0.2s, background 0.2s;
+}
+.ex-thumb:hover{ border-color:var(--accent); background:#F0F4F7; }
+.ex-thumb .icon{ width:26px; height:26px; opacity:0.4; }
+.ex-thumb .label{
+  font-family:var(--mono);
+  font-size:10.5px;
+  letter-spacing:0.04em;
+  color:#A7A19A;
+}
+.ex-thumb img{ width:100%; height:100%; object-fit:cover; border-radius:9px; }
+.ex-thumb-grid{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:10px;
+}
+.ex-thumb-grid .ex-thumb{ min-height:140px; }
+.ex-usage{
+  font-family:var(--mono);
+  font-size:12.5px;
+  color:var(--accent-deep);
+  background:var(--code-bg);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:8px 12px;
+  margin:0 0 14px;
+  word-break:break-all;
+}
+
+/* ---------- Lightbox ---------- */
+.lightbox{
+  position:fixed; inset:0;
+  background:rgba(20,18,16,0.82);
+  display:none;
+  align-items:center; justify-content:center;
+  z-index:200;
+  padding:32px;
+}
+.lightbox.open{ display:flex; }
+.lightbox-inner{
+  max-width:90vw; max-height:85vh;
+  display:flex; align-items:center; justify-content:center;
+}
+.lightbox-inner img{
+  max-width:90vw; max-height:85vh;
+  border-radius:10px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.4);
+}
+.lightbox-inner .placeholder-large{
+  width:min(80vw, 480px);
+  height:min(60vh, 360px);
+  background:#2A2622;
+  border-radius:12px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:10px;
+  color:#9C958C;
+  font-family:var(--mono);
+  font-size:12px;
+}
+.lightbox-close{
+  position:absolute; top:24px; right:24px;
+  width:40px; height:40px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.08);
+  border:none;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+}
+.lightbox-close:hover{ background:rgba(255,255,255,0.16); }
+.lightbox-close svg{ width:18px; height:18px; }
+
+@media (max-width:480px){
+  .wrap{ padding:32px 18px 80px; }
+  .tabbar-inner{ padding:0 18px; }
+  .brand{ display:none; }
+}
+</style>
+</head>
+<body>
+
+<div class="tabbar">
+  <div class="tabbar-inner">
+    <span class="brand">SVG 단축어</span>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="notice">안내</button>
+      <button class="tab-btn" data-tab="examples">예시</button>
+      <span class="tab-underline"></span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- 안내 탭 -->
+  <div class="panel active" id="panel-notice">
+    <h1>SVG 단축어 안내</h1>
+    <p class="subtitle">SVG 단축어의 작동 방식과 서버 로그에 대해 정리한 안내문입니다.</p>
+
+    <h2>SVG 단축어란</h2>
+    <p>SVG 단축어는 휴대폰 화면, 문자 메시지, SNS 알림 등을 실제 이미지처럼 렌더링해주는 기능입니다. 단축어를 입력하면 외부 서버에서 SVG 코드를 생성하고, 그 결과가 채팅창에 이미지 형태로 표시됩니다.</p>
+
+    <h2>서버에 어떤 정보가 남나요</h2>
+    <p>SVG가 생성되는 과정에서, 제작자의 서버에는 다음과 같은 정보가 기록될 수 있습니다.</p>
+
+    <ol class="data-list">
+      <li>SVG를 생성하는 데 사용된 URL 및 파라미터 전문</li>
+      <li>요청 시각 및 타임존</li>
+      <li>IP 주소</li>
+      <li>ISP / 통신사 <span class="note">모바일은 통신사, 유선은 인터넷 사업자가 표시됩니다.</span></li>
+      <li>접속 기기 및 브라우저 정보</li>
+      <li>접속 환경 추정 (앱 / 웹) <span class="note">기기 정보로부터 유추되는 값으로, 정확하지 않을 수 있습니다.</span></li>
+      <li>접속 국가</li>
+      <li>접속 지역 및 도시 <span class="note">이하 8·9·10번은 IP 기반 추정값으로, 실제 위치와 다를 수 있습니다.</span></li>
+      <li>우편번호</li>
+      <li>위도 / 경도</li>
+    </ol>
+
+    <p>채팅 내용이 완성된 이미지째로 저장되는 것은 아닙니다. SVG를 만들기 위해 서버에 전달된 링크와 파라미터가 로그로 남는 구조입니다. 메시지 수정 버튼을 눌렀을 때 보이는 긴 URL이 바로 그 원본 형태입니다.</p>
+    <p>또한 한 번 생성된 SVG 기록은 채팅방을 삭제해도 사라지지 않습니다. 이미 외부 서버로 호출된 결과이기 때문입니다.</p>
+
+    <h2>저는 로그를 수집하지 않습니다</h2>
+    <p>현재 제 SVG 서버는 로그 수집 기능을 OFF 상태로 설정해 두었습니다. Cloudflare 인프라 자체에는 흔적이 남을 수 있지만, 제 관리자 대시보드에는 어떤 기록도 표시되지 않으며 저는 여러분의 정보를 확인할 수 없습니다.</p>
+
+    <div class="frame-grid pair">
+      <div class="frame frame-clickable" data-src="https://raw.githubusercontent.com/snowbls/newb/main/%EC%A6%9D%EA%B1%B01.webp" data-name="로그 비공개 설정 1"><img src="https://raw.githubusercontent.com/snowbls/newb/main/%EC%A6%9D%EA%B1%B01.webp" alt="로그 비공개 설정 1" style="width:100%;height:100%;object-fit:cover;border-radius:10px;"></div>
+      <div class="frame frame-clickable" data-src="https://raw.githubusercontent.com/snowbls/newb/main/%EC%A6%9D%EA%B1%B02.webp" data-name="로그 비공개 설정 2"><img src="https://raw.githubusercontent.com/snowbls/newb/main/%EC%A6%9D%EA%B1%B02.webp" alt="로그 비공개 설정 2" style="width:100%;height:100%;object-fit:cover;border-radius:10px;"></div>
+    </div>
+    <p style="font-size:13.5px; color:var(--ink-soft); text-align:center; margin-top:-4px;">(SVG를 사용해서 눈꽃의 서버 로그에!!! 비밀스러운 메세지를 남기고 싶어!!! 해도 못남깁니다)</p>
+
+    <h2>그래도 걱정되신다면</h2>
+    <p>"지금 꺼놨다고 해도, 나중에 다시 켜면 과거 기록까지 볼 수 있는 거 아니냐"는 의문이 들 수 있습니다. 충분히 합리적인 걱정입니다.</p>
+    <p>그런 분들을 위해 SVG를 사용하지 않는 대안 프롬프트를 공개하고 있습니다. 아래 링크의 단축어를 직접 등록하면 이미지 대신 일반 채팅 형식으로 동일한 결과를 받아볼 수 있으며, 외부 서버를 경유하지 않습니다.</p>
+    <img class="alt-shortcut-img" src="https://raw.githubusercontent.com/snowbls/newb/main/%EB%8B%A8%EC%B6%95%EC%96%B4.webp" alt="대안 단축어 예시">
+    <a class="cmd-box" href="https://snowbls.github.io/newb/" target="_blank" rel="noopener noreferrer">https://snowbls.github.io/newb/</a>
+    <p style="font-size:13.5px; color:var(--ink-soft);">등록 경로 · 본인 프로필 &gt; 채팅방 설정 &gt; 내 단축어</p>
+
+    <h2>오류가 발생할 때</h2>
+    <p>SVG 단축어도 서버 상태나 모델 처리 과정에 따라 출력이 정상적으로 나오지 않을 때가 있습니다. 발견될 때마다 수정하고 있으며, 반복적으로 같은 오류가 발생하는 단축어가 있다면 작품 댓글이나 가이드 글 댓글로 알려주시면 감사하겠습니다.</p>
+
+    <div class="divider"></div>
+
+    <h2>자주 묻는 질문</h2>
+    <div class="faq-item">
+      <button class="faq-q">
+        <span class="qtext"><span class="q-mark">Q.</span> 단축어를 입력해도 안 나와요.</span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#7FA8C9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">
+          <p><strong>수정을 눌렀을 때 알파벳 링크가 길게 나오는 경우</strong> — 생성 오류입니다. 해당 메시지를 삭제하고 단축어를 다시 입력해 보세요. 모델은 프로챗 2.5 또는 하이퍼챗을 권장합니다.</p>
+          <p><strong>링크가 한글 포함으로 정상 출력되었는데 이미지가 사라지는 경우</strong> — 메시지 하단 ··· 메뉴에서 '이미지 상황 보기'를 켜주세요.</p>
+          <p><strong>링크가 중간에 잘리는 경우</strong> — 삭제 후 재전송하거나, '이어서 생성'으로 나머지 링크를 받아 이어 붙여 주세요.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 예시 탭 -->
+  <div class="panel" id="panel-examples">
+    <h1>SVG 단축어 예시</h1>
+    <p class="subtitle">단축어를 누르면 예시 이미지가 펼쳐집니다. 이미지를 누르면 크게 볼 수 있습니다.</p>
+
+    <div id="example-list"></div>
+
+    <div class="divider"></div>
+
+    <h2>기타 단축어 예시</h2>
+    <div id="extra-list"></div>
+  </div>
+
+  <!-- 라이트박스 -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightbox-close" aria-label="닫기">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <div class="lightbox-inner" id="lightbox-inner"></div>
+  </div>
+
+  <footer>
+    <p>눈꽃처럼 피어오르라</p>
+  </footer>
+
+</div>
+
+<script>
+// Tab switching
+(function(){
+  var btns = document.querySelectorAll('.tab-btn');
+  var panels = {
+    notice: document.getElementById('panel-notice'),
+    examples: document.getElementById('panel-examples')
+  };
+  var underline = document.querySelector('.tab-underline');
+
+  function moveUnderline(btn){
+    var rect = btn.getBoundingClientRect();
+    var barRect = btn.parentElement.getBoundingClientRect();
+    underline.style.left = (rect.left - barRect.left) + 'px';
+    underline.style.width = rect.width + 'px';
+  }
+
+  function activate(tab, btn){
+    btns.forEach(function(b){ b.classList.remove('active'); });
+    Object.keys(panels).forEach(function(k){ panels[k].classList.remove('active'); });
+    btn.classList.add('active');
+    panels[tab].classList.add('active');
+    moveUnderline(btn);
+  }
+
+  btns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      activate(btn.dataset.tab, btn);
+    });
+  });
+
+  // init underline position after fonts/layout settle
+  window.addEventListener('load', function(){
+    moveUnderline(document.querySelector('.tab-btn.active'));
+  });
+  window.addEventListener('resize', function(){
+    moveUnderline(document.querySelector('.tab-btn.active'));
+  });
+  // fallback immediate call
+  setTimeout(function(){
+    moveUnderline(document.querySelector('.tab-btn.active'));
+  }, 50);
+})();
+
+// FAQ accordion
+(function(){
+  var qs = document.querySelectorAll('.faq-q');
+  qs.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var item = btn.parentElement;
+      var answer = item.querySelector('.faq-a');
+      var isOpen = item.classList.contains('open');
+      if(isOpen){
+        item.classList.remove('open');
+        answer.style.maxHeight = null;
+      } else {
+        item.classList.add('open');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
+})();
+
+// Clickable frame images (notice tab) -> lightbox
+(function(){
+  document.querySelectorAll('.frame-clickable').forEach(function(frame){
+    frame.addEventListener('click', function(){
+      var src = frame.getAttribute('data-src');
+      var name = frame.getAttribute('data-name') || '';
+      if(src) openLightbox(src, name);
+    });
+  });
+})();
+
+// ---------- Example data ----------
+var BASE = 'https://raw.githubusercontent.com/snowbls/newb/main/';
+var examples = [
+  { name: '/메세지', usage: '/메세지 @아델리온 [안녕하세요]', imgs: ['메세지.webp'] },
+  { name: '/독자', usage: '/독자', imgs: ['독자1.webp','독자2.webp'] },
+  { name: '/커뮤', usage: '/커뮤', imgs: ['커뮤1.webp','커뮤2.webp'] },
+  { name: '/뉴스', usage: '/뉴스', imgs: ['뉴스1.webp'] },
+  { name: '/단톡', usage: '/단톡 모두들 안녕? 내가 바로 수석이란다!', imgs: ['단톡.webp'] },
+  { name: '/폰', usage: '/폰 카일의 폰', imgs: ['폰1.webp','폰2.webp'] },
+  { name: '/검색', usage: '/검색 카일의 검색', imgs: ['검색1.webp','검색2.webp'] },
+  { name: '/인스타', usage: '/인스타 카일', imgs: ['인스타1.webp'] },
+  { name: '/엿보기', usage: '/엿보기 카일 아델리온', imgs: ['엿보기.png'] }
+];
+
+(function(){
+  var list = document.getElementById('example-list');
+  if(!list) return;
+
+  examples.forEach(function(ex, idx){
+    var item = document.createElement('div');
+    item.className = 'ex-item';
+
+    // build thumbnails
+    var thumbsHTML = '';
+    var multi = ex.imgs.length > 1;
+    if(multi) thumbsHTML += '<div class="ex-thumb-grid">';
+    ex.imgs.forEach(function(file){
+      var src = BASE + encodeURIComponent(file);
+      thumbsHTML +=
+        '<div class="ex-thumb" data-src="'+src+'">'+
+          '<img src="'+src+'" alt="'+ex.name+' 예시" loading="lazy">'+
+        '</div>';
+    });
+    if(multi) thumbsHTML += '</div>';
+
+    item.innerHTML =
+      '<button class="ex-q">'+
+        '<span class="ex-q-left"><span class="ex-num">'+String(idx+1).padStart(2,'0')+'</span><span class="ex-name">'+ex.name+'</span></span>'+
+        '<svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#7FA8C9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'+
+      '</button>'+
+      '<div class="ex-body">'+
+        '<div class="ex-body-inner">'+
+          '<div class="ex-usage">'+ex.usage+'</div>'+
+          thumbsHTML+
+        '</div>'+
+      '</div>';
+
+    list.appendChild(item);
+
+    // accordion toggle
+    var q = item.querySelector('.ex-q');
+    var body = item.querySelector('.ex-body');
+    q.addEventListener('click', function(){
+      var isOpen = item.classList.contains('open');
+      if(isOpen){
+        item.classList.remove('open');
+        body.style.maxHeight = null;
+      } else {
+        item.classList.add('open');
+        body.style.maxHeight = body.scrollHeight + 'px';
+      }
+    });
+
+    // lightbox per image
+    item.querySelectorAll('.ex-thumb').forEach(function(thumb){
+      thumb.addEventListener('click', function(){
+        var src = thumb.getAttribute('data-src');
+        if(src) openLightbox(src, ex.name);
+      });
+    });
+  });
+})();
+
+// ---------- Extra shortcuts ----------
+var extras = [
+  { name: '/며칠뒤', usage: '/며칠뒤 3일 자료실', imgs: ['며칠뒤.png'] },
+  { name: '/일기', usage: '/일기 카일', imgs: ['일기.png'] },
+  { name: '/엔딩', usage: '/엔딩', imgs: ['엔딩.png'] },
+  { name: '/요약', usage: '/요약', imgs: ['요약.png'] }
+];
+
+(function(){
+  var list = document.getElementById('extra-list');
+  if(!list) return;
+
+  extras.forEach(function(ex, idx){
+    var item = document.createElement('div');
+    item.className = 'ex-item';
+
+    var thumbsHTML = '';
+    var multi = ex.imgs.length > 1;
+    if(multi) thumbsHTML += '<div class="ex-thumb-grid">';
+    ex.imgs.forEach(function(file){
+      var src = BASE + encodeURIComponent(file);
+      thumbsHTML +=
+        '<div class="ex-thumb" data-src="'+src+'">'+
+          '<img src="'+src+'" alt="'+ex.name+' 예시" loading="lazy">'+
+        '</div>';
+    });
+    if(multi) thumbsHTML += '</div>';
+
+    item.innerHTML =
+      '<button class="ex-q">'+
+        '<span class="ex-q-left"><span class="ex-num" style="background:#EDEAE6;">'+String(idx+1).padStart(2,'0')+'</span><span class="ex-name">'+ex.name+'</span></span>'+
+        '<svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#7FA8C9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'+
+      '</button>'+
+      '<div class="ex-body">'+
+        '<div class="ex-body-inner">'+
+          '<div class="ex-usage">'+ex.usage+'</div>'+
+          thumbsHTML+
+        '</div>'+
+      '</div>';
+
+    list.appendChild(item);
+
+    var q = item.querySelector('.ex-q');
+    var body = item.querySelector('.ex-body');
+    q.addEventListener('click', function(){
+      var isOpen = item.classList.contains('open');
+      if(isOpen){
+        item.classList.remove('open');
+        body.style.maxHeight = null;
+      } else {
+        item.classList.add('open');
+        body.style.maxHeight = body.scrollHeight + 'px';
+      }
+    });
+
+    item.querySelectorAll('.ex-thumb').forEach(function(thumb){
+      thumb.addEventListener('click', function(){
+        var src = thumb.getAttribute('data-src');
+        if(src) openLightbox(src, ex.name);
+      });
+    });
+  });
+})();
+
+// ---------- Lightbox ----------
+var lightbox = document.getElementById('lightbox');
+var lightboxInner = document.getElementById('lightbox-inner');
+var lightboxClose = document.getElementById('lightbox-close');
+
+function openLightbox(src, name){
+  lightboxInner.innerHTML = '<img src="'+src+'" alt="'+name+' 큰 이미지">';
+  lightbox.classList.add('open');
+}
+function closeLightbox(){
+  lightbox.classList.remove('open');
+  lightboxInner.innerHTML = '';
+}
+lightboxClose.addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', function(e){
+  if(e.target === lightbox) closeLightbox();
+});
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape') closeLightbox();
+});
+</script>
+
+</body>
+</html>
